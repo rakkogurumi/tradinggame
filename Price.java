@@ -1,5 +1,7 @@
 import java.util.Random;
 
+//test upload
+
 public class Price{
 
 	public static void changePrice(){
