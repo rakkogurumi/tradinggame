@@ -1,5 +1,6 @@
 public class Player{
 
+
   public static int players;
 
   static int stocks[][] = new int[100][3]; //各プレイヤーの所持株数管理用配列stocks
