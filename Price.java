@@ -1,5 +1,6 @@
 import java.util.Random;
 
+
 public class Price{
 
     public static int price1=80;

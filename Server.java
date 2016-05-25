@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
+
 //グローバル変数の部分。(マルチスレッドではインスタンスの方がいいかも)
 class Global{
 
