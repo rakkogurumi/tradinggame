@@ -9,12 +9,7 @@ import java.util.Scanner;
 
 //グローバル変数の部分。(マルチスレッドではインスタンスの方がいいかも)
 class Global{
-    public static int price1=80;
-    public static int price2=100;
-    public static int price3=120;
-    public static int fluc1;
-    public static int fluc2;
-    public static int fluc3;
+
     public static int players;
     public static int p_num;
     public static int i=0;
