@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.io.BufferedReader;
@@ -5,7 +10,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.Scanner;
-
+import java.util.Random;
 
 //グローバル変数の部分。(マルチスレッドではインスタンスの方がいいかも)
 class Global{
@@ -26,6 +31,9 @@ public class Server {
             serverSocket = new ServerSocket(ECHO_PORT);
             System.out.println("Serverが起動しました(port="+ serverSocket.getLocalPort() + ")");
             Scanner sc = new Scanner(System.in);
+
+
+
             System.out.println("プレイヤー人数を入力してください。");
 			//プレイヤー人数を入力。(マルチスレッド用。現状1人プレイしか機能しない)
             Player.players = sc.nextInt();
@@ -288,3 +296,45 @@ class EchoThread extends Thread {
         }
     }
 }
+
+//test upload
+
+
+
+/*
+public class Price{
+
+    public static int price1=80;
+    public static int price2=100;
+    public static int price3=120;
+    public static int fluc1;
+    public static int fluc2;
+    public static int fluc3;
+
+    public static void changePrice(){
+        //現在時刻をシードとして乱数を作成。
+        long seed = System.currentTimeMillis();
+        Random r = new Random(seed);
+        int ran1 = r.nextInt(21)-10;
+        int ran2 = r.nextInt(41)-20;
+        int ran3 = r.nextInt(61)-30;
+        double rate1 = (double)1.0+(double)ran1/100; //株1は±10%
+        double rate2 = (double)1.0+(double)ran2/100; //株2は±20%
+        double rate3 = (double)1.0+(double)ran3/100; //株3は±30%変動する。
+        fluc1=price1;//前回からの変動数値を記録
+        fluc2=price2;
+        fluc3=price3;
+        price1*=rate1;
+        price2*=rate2; 
+        price3*=rate3;
+        //株価最低額を指定(あまりにも株価が低くなることを防止)
+        if(price1<20) price1=25;
+        if(price2<30) price2=30;
+        if(price3<40) price3=35;
+        fluc1=price1-fluc1;
+        fluc2=price2-fluc2;
+        fluc3=price3-fluc3;
+    }
+}
+*/
+

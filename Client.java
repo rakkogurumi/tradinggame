@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.io.BufferedReader;
@@ -5,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Random;
+
  
 public class Client {
     //ポートは10007
@@ -25,7 +32,35 @@ public class Client {
             String input;
             String line;
             String name;
+            int highscore=0;
             int turn=1; //ターン数
+
+            try{
+                System.out.println("現在のあなたのハイスコア");
+                File file1 = new File("hs_name.txt");
+                FileReader filereader1 = new FileReader(file1);
+                int ch;
+                while((ch = filereader1.read()) != -1){
+                    System.out.print((char)ch);
+                }
+                System.out.print(":");
+                filereader1.close();
+                File file2 = new File("highscore.txt");
+                FileReader filereader2 = new FileReader(file2);
+
+                while((ch = filereader2.read()) != -1){
+                    System.out.print((char)ch);
+                }
+                System.out.println("yen");
+                filereader2.close();
+                highscore = highscore*10+(ch-48);
+                System.out.println("------------------");
+                System.out.println();
+            }catch(FileNotFoundException e){
+                System.out.println(e);
+            }catch(IOException e){
+                System.out.println(e);
+            }
             
             //自分の名前を入力してサーバーに送信
             System.out.println("プレイヤー名を入力してください。");
@@ -46,6 +81,8 @@ public class Client {
             int temp;
             int mymoney=10000; //所持金
             int mys1=0,mys2=0,mys3=0; //所持株
+
+
 
             //とりあえず10ターン
             while (turn<=10){
@@ -310,6 +347,22 @@ public class Client {
             p3 = Integer.parseInt(in.readLine());
             int fortune = p1*mys1+p2*mys2+p3*mys3+mymoney;
             System.out.println("あなたの最終総資産は、"+fortune+"yen です。");
+            if(fortune>highscore){
+                System.out.println("ハイスコアが更新されました。");
+                try{
+                    File file1 = new File("hs_name.txt");
+                    FileWriter filewriter1 = new FileWriter(file1);
+                    filewriter1.write(name);
+                    filewriter1.close();
+                    File file2 = new File("highscore.txt");
+                    PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file2)));
+                    pw.write(String.valueOf(highscore));
+                    pw.close();
+                }
+                catch(IOException e){
+                    System.out.println(e);
+                }
+            }
             System.out.println("終了");
             out.println("プレイヤー"+(p_num+1)+":"+name+"はログアウトしました。");
         }
