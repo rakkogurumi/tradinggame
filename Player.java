@@ -1,6 +1,7 @@
 public class Player{
 
   public static int players;
+  public static int p_num;
 
   static int stocks[][] = new int[100][3]; //各プレイヤーの所持株数管理用配列stocks
   static String name[] = new String[100];  //プレイヤー名管理用配列name
