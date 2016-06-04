@@ -15,7 +15,6 @@ import java.util.Random;
 //グローバル変数の部分。(マルチスレッドではインスタンスの方がいいかも)
 class Global{
 
-    public static int p_num;
     public static int i=0;
 }
 
@@ -37,7 +36,7 @@ public class Server {
             System.out.println("プレイヤー人数を入力してください。");
 			//プレイヤー人数を入力。(マルチスレッド用。現状1人プレイしか機能しない)
             Player.players = sc.nextInt();
-            Global.p_num=0; //プレイヤー番号
+            Player.p_num=0; //プレイヤー番号
             System.out.println("クライアントを探しています。");
 
             for (int i=0;i<Player.players;i++) {
@@ -58,6 +57,7 @@ public class Server {
 
 class EchoThread extends Thread {
     ServerSocket serverSocket = null;
+    Wait wt = new Wait();
 
     private Socket socket;
 
@@ -66,6 +66,8 @@ class EchoThread extends Thread {
         System.out.println("接続されました "
                 + socket.getRemoteSocketAddress());
     }
+
+
 
      public void run() {
         try {
@@ -92,11 +94,15 @@ class EchoThread extends Thread {
             int command;
             int turn=1; //ターン数
             for(i=0;i<Player.players;i++) Player.putmoney(i,10000); //所持金の初期化。
-            out.println("あなたはプレイヤー"+(Global.p_num+1)+"です。"); //プレイヤー番号を告知
-            out.println(Global.p_num);						 //ついでにプレイヤー番号をクライアントに送る。
-            Global.p_num++;
+            out.println("あなたはプレイヤー"+(Player.p_num+1)+"です。"); //プレイヤー番号を告知
+            out.println(Player.p_num);						 //ついでにプレイヤー番号をクライアントに送る。
+            Player.p_num++;
             out.println(Player.players);
             out.flush();
+
+            wt.waitLogin();
+
+
 
 
 			//とりあえず10ターン行うことにする。(初期設定で決めてもいいかもしれない)

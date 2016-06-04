@@ -12,11 +12,11 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.Random;
 
- 
+
 public class Client {
     //ポートは10007
     public static final int ECHO_PORT = 10007;
- 
+
     public static void main(String args[]) {
         Socket socket = null;
         //引数なしでlocalhostに自動接続する。
@@ -83,14 +83,14 @@ public class Client {
             int mys1=0,mys2=0,mys3=0; //所持株
 
 
-
             //とりあえず10ターン
             while (turn<=10){
                 System.out.println("---------------");
                 System.out.println();
                 line = in.readLine();
                 System.out.println(line);
-                System.out.printf("¥nフェイズ1:株購入フェイズ¥n");
+                System.out.println();
+                System.out.println("フェイズ1:株購入フェイズ");
                 for(int i=0;i<3;i++){
                     line = in.readLine();
                     System.out.println(line);
