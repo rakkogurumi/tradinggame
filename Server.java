@@ -107,9 +107,9 @@ class EchoThread extends Thread {
 
 			//とりあえず10ターン行うことにする。(初期設定で決めてもいいかもしれない)
             while (turn<=10){
-                Price.changePrice(); //まず株価を変動させる。
+                //Price.changePrice(); //まず株価を変動させる。
 				//ターン開始宣言と、現在の株価、持ち株数、持ち金をクライアントに送り、クライアント側で表示させる。
-                System.out.println("Turn"+turn+" start.");
+                System.out.println(Thread.currentThread()+"Turn"+turn+" start.");
                 out.println("Turn"+turn+" start.");
                 if(Price.fluc1>=0)out.println("株1:"+Price.price1+"yen.(+"+Price.fluc1+")");
                 else out.println("株1:"+Price.price1+"yen.("+Price.fluc1+")");
@@ -157,6 +157,8 @@ class EchoThread extends Thread {
 							//3つの変数をもとに、データ更新
                             Player.putstocks(temp2,0,Player.getstocks(temp2,0)+temp1);
                             Player.putmoney(temp2,temp3);
+                                Player.wait_num++;
+                                wt.waitPlayer();
                             break;
                         }
                         else{/*System.out.println("NG1");*/}
@@ -170,6 +172,8 @@ class EchoThread extends Thread {
                             temp3 = Integer.parseInt(in.readLine());
                             Player.putstocks(temp2,1,Player.getstocks(temp2,1)+temp1);
                             Player.putmoney(temp2,temp3);
+                                Player.wait_num++;
+                                wt.waitPlayer();
                             break;
                         }
                         else{/*System.out.println("NG2");*/}
@@ -183,12 +187,18 @@ class EchoThread extends Thread {
                             temp3 = Integer.parseInt(in.readLine());
                             Player.putstocks(temp2,2,Player.getstocks(temp2,2)+temp1);
                             Player.putmoney(temp2,temp3);
+                                Player.wait_num++;
+                                wt.waitPlayer();
                             break;
                         }
                         else{/*System.out.println("NG3");*/}
                     }
 					//[4]何もしない　を選んだ場合は即座に次に進む。
-                    else if(command==4) break;
+                    else if(command==4) {
+                                Player.wait_num++;
+                                wt.waitPlayer();
+                      break;
+                    }
                     else {/*System.out.println("invalid.");*/}
                 }
 
@@ -227,6 +237,9 @@ class EchoThread extends Thread {
                                 temp3 = Integer.parseInt(in.readLine());
                                 Player.putstocks(temp2,0,Player.getstocks(temp2,0)-temp1);
                                 Player.putmoney(temp2,temp3);
+                                Player.wait_num++;
+                                if(Player.wait_num%Player.players==0) Price.changePrice();
+                                wt.waitPlayer();
                                 break;
                             }
                             else{/*System.out.println("NG1");*/}
@@ -240,6 +253,9 @@ class EchoThread extends Thread {
                                 temp3 = Integer.parseInt(in.readLine());
                                 Player.putstocks(temp2,1,Player.getstocks(temp2,1)-temp1);
                                 Player.putmoney(temp2,temp3);
+                                Player.wait_num++;
+                                if(Player.wait_num%Player.players==0) Price.changePrice();
+                                wt.waitPlayer();
                                 break;
                             }
                             else{/*System.out.println("NG2");*/}
@@ -253,11 +269,19 @@ class EchoThread extends Thread {
                                 temp3 = Integer.parseInt(in.readLine());
                                 Player.putstocks(temp2,2,Player.getstocks(temp2,2)-temp1);
                                 Player.putmoney(temp2,temp3);
+                                Player.wait_num++;
+                                if(Player.wait_num%Player.players==0) Price.changePrice(); //まず株価を変動させる。
+                                wt.waitPlayer();
                                 break;
                             }
                             else{/*System.out.println("NG3");*/}
                         }
-                        else if(command==4) break;
+                        else if(command==4) {
+                                Player.wait_num++;
+                                if(Player.wait_num%Player.players==0) Price.changePrice();
+                                wt.waitPlayer();
+                          break;
+                        }
                         else {/*System.out.println("invalid.");*/}
                     }
                     catch(NumberFormatException nfe){
