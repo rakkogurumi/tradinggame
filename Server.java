@@ -12,32 +12,40 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.Random;
 
-//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã®éƒ¨åˆ†ã€‚(ãƒãƒ«ãƒã‚¹ãƒ¬ãƒƒãƒ‰ã§ã¯ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®æ–¹ãŒã„ã„ã‹ã‚‚)
+//ƒOƒ[ƒoƒ‹•Ï”‚Ì•”•ªB(ƒ}ƒ‹ƒ`ƒXƒŒƒbƒh‚Å‚ÍƒCƒ“ƒXƒ^ƒ“ƒX‚Ì•û‚ª‚¢‚¢‚©‚à)
 class Global{
-
     public static int i=0;
 }
 
 public class Server {
-	//PORTç•ªå·ã¯10007
+    //PORT”Ô†‚Í10007
     public static final int ECHO_PORT = 10007;
 
 
     public static void main(String[] args){
         ServerSocket serverSocket = null;
+        BufferedReader keyIn = new BufferedReader(new InputStreamReader(System.in));
+
+        
 
         try{
             serverSocket = new ServerSocket(ECHO_PORT);
-            System.out.println("ServerãŒèµ·å‹•ã—ã¾ã—ãŸ(port="+ serverSocket.getLocalPort() + ")");
+            System.out.println("Server‚ª‹N“®‚µ‚Ü‚µ‚½(port="+ serverSocket.getLocalPort() + ")");
             Scanner sc = new Scanner(System.in);
-
-
-
-            System.out.println("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼äººæ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
-			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼äººæ•°ã‚’å…¥åŠ›ã€‚(ãƒãƒ«ãƒã‚¹ãƒ¬ãƒƒãƒ‰ç”¨ã€‚ç¾çŠ¶1äººãƒ—ãƒ¬ã‚¤ã—ã‹æ©Ÿèƒ½ã—ãªã„)
-            Player.players = sc.nextInt();
-            Player.p_num=0; //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·
-            System.out.println("ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚’æ¢ã—ã¦ã„ã¾ã™ã€‚");
+            
+            int chk=0;
+            while(chk==0){
+                try{
+                    System.out.println("ƒvƒŒƒCƒ„[l”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
+                    Player.players = Integer.parseInt(keyIn.readLine());
+                    chk++;
+                }
+                catch(NumberFormatException nfe){
+                    System.out.println("”š‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
+                }
+            }
+            Player.p_num=0; //ƒvƒŒƒCƒ„[”Ô†
+            System.out.println("ƒNƒ‰ƒCƒAƒ“ƒg‚ğ’T‚µ‚Ä‚¢‚Ü‚·B");
 
             for (int i=0;i<Player.players;i++) {
                 Socket socket = serverSocket.accept();
@@ -63,11 +71,9 @@ class EchoThread extends Thread {
 
     public EchoThread(Socket socket) {
         this.socket = socket;
-        System.out.println("æ¥ç¶šã•ã‚Œã¾ã—ãŸ "
+        System.out.println("Ú‘±‚³‚ê‚Ü‚µ‚½ "
                 + socket.getRemoteSocketAddress());
     }
-
-
 
      public void run() {
         try {
@@ -76,15 +82,15 @@ class EchoThread extends Thread {
             String line;
             int temp1,temp2,temp3;
 
-			//stocksã®åˆæœŸåŒ–
+            //stocks‚Ì‰Šú‰»
             for(int i=0;i<Player.players;i++) for(int j=0;j<3;j++) Player.putstocks(i,j,0);
 
-			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæœ€åˆã«æŒ‡å®šã—ãŸäººæ•°åˆ†æƒã†ã¾ã§loginã‚’å¾…ã¤éƒ¨åˆ†(å ´åˆã«ã‚ˆã£ã¦ã¯ä¸å¿…è¦)
+            //ƒvƒŒƒCƒ„[‚ªÅ‰‚Éw’è‚µ‚½l”•ª‘µ‚¤‚Ü‚Ålogin‚ğ‘Ò‚Â•”•ª(ê‡‚É‚æ‚Á‚Ä‚Í•s•K—v)
             int i=0;
             //while(true){
                // if(Global.i>=Player.players) break;
                 while((line = in.readLine())!=null){
-                    System.out.println("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼"+(Global.i+1)+":"+line+"ãŒãƒ­ã‚°ã‚¤ãƒ³ã—ã¾ã—ãŸã€‚");
+                    System.out.println("ƒvƒŒƒCƒ„["+(Global.i+1)+":"+line+"‚ªƒƒOƒCƒ“‚µ‚Ü‚µ‚½B");
                     Player.putname(Global.i,line);
                     Global.i++;
                     break;
@@ -92,10 +98,10 @@ class EchoThread extends Thread {
             //}
 
             int command;
-            int turn=1; //ã‚¿ãƒ¼ãƒ³æ•°
-            for(i=0;i<Player.players;i++) Player.putmoney(i,10000); //æ‰€æŒé‡‘ã®åˆæœŸåŒ–ã€‚
-            out.println("ã‚ãªãŸã¯ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼"+(Player.p_num+1)+"ã§ã™ã€‚"); //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·ã‚’å‘ŠçŸ¥
-            out.println(Player.p_num);						 //ã¤ã„ã§ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·ã‚’ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€ã‚‹ã€‚
+            int turn=1; //ƒ^[ƒ“”
+            for(i=0;i<Player.players;i++) Player.putmoney(i,10000); //Š‹à‚Ì‰Šú‰»B
+            out.println("‚ ‚È‚½‚ÍƒvƒŒƒCƒ„["+(Player.p_num+1)+"‚Å‚·B"); //ƒvƒŒƒCƒ„[”Ô†‚ğ’m
+            out.println(Player.p_num);                       //‚Â‚¢‚Å‚ÉƒvƒŒƒCƒ„[”Ô†‚ğƒNƒ‰ƒCƒAƒ“ƒg‚É‘—‚éB
             Player.p_num++;
             out.println(Player.players);
             out.flush();
@@ -105,56 +111,60 @@ class EchoThread extends Thread {
 
 
 
-			//ã¨ã‚Šã‚ãˆãš10ã‚¿ãƒ¼ãƒ³è¡Œã†ã“ã¨ã«ã™ã‚‹ã€‚(åˆæœŸè¨­å®šã§æ±ºã‚ã¦ã‚‚ã„ã„ã‹ã‚‚ã—ã‚Œãªã„)
+            //‚Æ‚è‚ ‚¦‚¸10ƒ^[ƒ“s‚¤‚±‚Æ‚É‚·‚éB(‰Šúİ’è‚ÅŒˆ‚ß‚Ä‚à‚¢‚¢‚©‚à‚µ‚ê‚È‚¢)
             while (turn<=10){
-                //Price.changePrice(); //ã¾ãšæ ªä¾¡ã‚’å¤‰å‹•ã•ã›ã‚‹ã€‚
-				//ã‚¿ãƒ¼ãƒ³é–‹å§‹å®£è¨€ã¨ã€ç¾åœ¨ã®æ ªä¾¡ã€æŒã¡æ ªæ•°ã€æŒã¡é‡‘ã‚’ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€ã‚Šã€ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå´ã§è¡¨ç¤ºã•ã›ã‚‹ã€‚
+                //Price.changePrice(); //‚Ü‚¸Š”‰¿‚ğ•Ï“®‚³‚¹‚éB
+                //ƒ^[ƒ“ŠJnéŒ¾‚ÆAŒ»İ‚ÌŠ”‰¿A‚¿Š””A‚¿‹à‚ğƒNƒ‰ƒCƒAƒ“ƒg‚É‘—‚èAƒNƒ‰ƒCƒAƒ“ƒg‘¤‚Å•\¦‚³‚¹‚éB
                 System.out.println(Thread.currentThread()+"Turn"+turn+" start.");
                 out.println("Turn"+turn+" start.");
-                if(Price.fluc1>=0)out.println("æ ª1:"+Price.price1+"yen.(+"+Price.fluc1+")");
-                else out.println("æ ª1:"+Price.price1+"yen.("+Price.fluc1+")");
-                if(Price.fluc2>=0)out.println("æ ª2:"+Price.price2+"yen.(+"+Price.fluc2+")");
-                else out.println("æ ª2:"+Price.price2+"yen.("+Price.fluc2+")");
-                if(Price.fluc3>=0)out.println("æ ª3:"+Price.price3+"yen.(+"+Price.fluc3+")");
-                else out.println("æ ª3:"+Price.price3+"yen.("+Price.fluc3+")");
+                if(Price.fluc1>=0)out.println("Š”1:"+Price.price1+"yen.(+"+Price.fluc1+")");
+                else out.println("Š”1:"+Price.price1+"yen.("+Price.fluc1+")");
+                if(Price.fluc2>=0)out.println("Š”2:"+Price.price2+"yen.(+"+Price.fluc2+")");
+                else out.println("Š”2:"+Price.price2+"yen.("+Price.fluc2+")");
+                if(Price.fluc3>=0)out.println("Š”3:"+Price.price3+"yen.(+"+Price.fluc3+")");
+                else out.println("Š”3:"+Price.price3+"yen.("+Price.fluc3+")");
 
-                for(i=0;i<Player.players;i++)  out.println(Player.getname(i)+": "+Player.getmoney(i)+"yen.");
+                int score;
+                for(i=0;i<Player.players;i++){
+                    score = (Player.getmoney(i)+Price.price1*Player.getstocks(i,0)+Price.price2*Player.getstocks(i,1)+Price.price3*Player.getstocks(i,2));
+                    out.println(Player.getname(i)+": "+score+"yen.");
+                }
 
-				//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·ã‚’å—ã‘å–ã‚Šã€ãã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æŒã¡æ ªã‚’è¿”ã™ã€‚
+                //ƒvƒŒƒCƒ„[”Ô†‚ğó‚¯æ‚èA‚»‚ÌƒvƒŒƒCƒ„[‚Ì‚¿Š”‚ğ•Ô‚·B
                 temp1 = Integer.parseInt(in.readLine());
                 out.println(Player.getstocks(temp1,0));
                 out.println(Player.getstocks(temp1,1));
                 out.println(Player.getstocks(temp1,2));
                 out.flush();
-				//ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«ç¾åœ¨ã®æ ªä¾¡ã‚’æ•™ãˆã‚‹éƒ¨åˆ†ã€‚
+                //ƒNƒ‰ƒCƒAƒ“ƒg‚ÉŒ»İ‚ÌŠ”‰¿‚ğ‹³‚¦‚é•”•ªB
                 out.println(Price.price1);
                 out.println(Price.price2);
                 out.println(Price.price3);
                 out.flush();
 
-                //å‰åŠã®æ ªã‚’è²·ã†ãƒ•ã‚§ã‚¤ã‚º
+                //‘O”¼‚ÌŠ”‚ğ”ƒ‚¤ƒtƒFƒCƒY
                 while(true){
-					//ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®é¸æŠã‚’å—ã‘å–ã‚‹ã€‚
+                    //ƒNƒ‰ƒCƒAƒ“ƒg‚Ì‘I‘ğ‚ğó‚¯æ‚éB
                     line = in.readLine();
-                    //æ•°å­—ä»¥å¤–ã‚’å…¥åŠ›ã—ã¦ã‚‚å¼·åˆ¶çµ‚äº†ã—ãªã„ã‚ˆã†ã«try-catchã™ã‚‹ã€‚
-					try{
+                    //”šˆÈŠO‚ğ“ü—Í‚µ‚Ä‚à‹­§I—¹‚µ‚È‚¢‚æ‚¤‚Étry-catch‚·‚éB
+                    try{
                         command = Integer.parseInt(line);
                     }
                     catch(NumberFormatException nfe){
                         command = 0;
                     }
-					//[1]æ ª1ã‚’è²·ã†å ´åˆ
+                    //[1]Š”1‚ğ”ƒ‚¤ê‡
                     if(command==1){
-						//ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒé©åˆ‡ãªæ•°å€¤ã‚’å…¥åŠ›ã—ãŸå ´åˆã®ã¿ã€ä»¥é™ã®å‡¦ç†ã«ç§»ã‚‹ã€‚
-						//å›ã‚Šãã©ã„ãŒã€ã“ã‚Œã‚’ã—ãªã„ã¨å—ä¿¡æ•°â‰ é€ä¿¡æ•°ã¨ãªã‚Šã€çµæœãƒ•ãƒªãƒ¼ã‚ºã™ã‚‹ã€‚
+                        //ƒNƒ‰ƒCƒAƒ“ƒg‚ª“KØ‚È”’l‚ğ“ü—Í‚µ‚½ê‡‚Ì‚İAˆÈ~‚Ìˆ—‚ÉˆÚ‚éB
+                        //‰ñ‚è‚­‚Ç‚¢‚ªA‚±‚ê‚ğ‚µ‚È‚¢‚ÆóM”‚‘—M”‚Æ‚È‚èAŒ‹‰ÊƒtƒŠ[ƒY‚·‚éB
                         line = in.readLine();
                         if(line.equals("OK")){
                             //System.out.println("OK1");
-							//3ã¤ã®å¤‰æ•°(ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·,è³¼å…¥æ•°,è³¼å…¥å¾Œã®é‡‘é¡)ã‚’ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰å—ã‘å–ã‚‹ã€‚
+                            //3‚Â‚Ì•Ï”(ƒvƒŒƒCƒ„[”Ô†,w“ü”,w“üŒã‚Ì‹àŠz)‚ğƒNƒ‰ƒCƒAƒ“ƒg‚©‚çó‚¯æ‚éB
                             temp1 = Integer.parseInt(in.readLine());
                             temp2 = Integer.parseInt(in.readLine());
                             temp3 = Integer.parseInt(in.readLine());
-							//3ã¤ã®å¤‰æ•°ã‚’ã‚‚ã¨ã«ã€ãƒ‡ãƒ¼ã‚¿æ›´æ–°
+                            //3‚Â‚Ì•Ï”‚ğ‚à‚Æ‚ÉAƒf[ƒ^XV
                             Player.putstocks(temp2,0,Player.getstocks(temp2,0)+temp1);
                             Player.putmoney(temp2,temp3);
                                 Player.wait_num++;
@@ -193,7 +203,7 @@ class EchoThread extends Thread {
                         }
                         else{/*System.out.println("NG3");*/}
                     }
-					//[4]ä½•ã‚‚ã—ãªã„ã€€ã‚’é¸ã‚“ã å ´åˆã¯å³åº§ã«æ¬¡ã«é€²ã‚€ã€‚
+                    //[4]‰½‚à‚µ‚È‚¢@‚ğ‘I‚ñ‚¾ê‡‚Í‘¦À‚ÉŸ‚Éi‚ŞB
                     else if(command==4) {
                                 Player.wait_num++;
                                 wt.waitPlayer();
@@ -202,23 +212,26 @@ class EchoThread extends Thread {
                     else {/*System.out.println("invalid.");*/}
                 }
 
-                //å¾ŒåŠã€‚æ ªã‚’å£²ã‚‹ãƒ•ã‚§ã‚¤ã‚ºã€‚
-				//å†åº¦çŠ¶æ³ã‚’ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã«é€ä¿¡
-                if(Price.fluc1>=0)out.println("æ ª1:"+Price.price1+"yen.(+"+Price.fluc1+")");
-                else out.println("æ ª1:"+Price.price1+"yen.("+Price.fluc1+")");
-                if(Price.fluc2>=0)out.println("æ ª2:"+Price.price2+"yen.(+"+Price.fluc2+")");
-                else out.println("æ ª2:"+Price.price2+"yen.("+Price.fluc2+")");
-                if(Price.fluc3>=0)out.println("æ ª3:"+Price.price3+"yen.(+"+Price.fluc3+")");
-                else out.println("æ ª3:"+Price.price3+"yen.("+Price.fluc3+")");
+                //Œã”¼BŠ”‚ğ”„‚éƒtƒFƒCƒYB
+                //Ä“xó‹µ‚ğƒNƒ‰ƒCƒAƒ“ƒg‚É‘—M
+                if(Price.fluc1>=0)out.println("Š”1:"+Price.price1+"yen.(+"+Price.fluc1+")");
+                else out.println("Š”1:"+Price.price1+"yen.("+Price.fluc1+")");
+                if(Price.fluc2>=0)out.println("Š”2:"+Price.price2+"yen.(+"+Price.fluc2+")");
+                else out.println("Š”2:"+Price.price2+"yen.("+Price.fluc2+")");
+                if(Price.fluc3>=0)out.println("Š”3:"+Price.price3+"yen.(+"+Price.fluc3+")");
+                else out.println("Š”3:"+Price.price3+"yen.("+Price.fluc3+")");
 
-                for(i=0;i<Player.players;i++)  out.println(Player.getname(i)+": "+Player.getmoney(i)+"yen.");
+                for(i=0;i<Player.players;i++){
+                    score = (Player.getmoney(i)+Price.price1*Player.getstocks(i,0)+Price.price2*Player.getstocks(i,1)+Price.price3*Player.getstocks(i,2));
+                    out.println(Player.getname(i)+": "+score+"yen.");
+                }
 
                 temp1 = Integer.parseInt(in.readLine());
                 out.println(Player.getstocks(temp1,0));
                 out.println(Player.getstocks(temp1,1));
                 out.println(Player.getstocks(temp1,2));
 
-				//åŸºæœ¬çš„ã«ã¯è²·ã†å ´åˆã¨åŒæ§˜ã®å‡¦ç†ã‚’è¡Œã†ã€‚
+                //Šî–{“I‚É‚Í”ƒ‚¤ê‡‚Æ“¯—l‚Ìˆ—‚ğs‚¤B
                 while(true){
                     line = in.readLine();
                     try{
@@ -270,7 +283,7 @@ class EchoThread extends Thread {
                                 Player.putstocks(temp2,2,Player.getstocks(temp2,2)-temp1);
                                 Player.putmoney(temp2,temp3);
                                 Player.wait_num++;
-                                if(Player.wait_num%Player.players==0) Price.changePrice(); //ã¾ãšæ ªä¾¡ã‚’å¤‰å‹•ã•ã›ã‚‹ã€‚
+                                if(Player.wait_num%Player.players==0) Price.changePrice(); //‚Ü‚¸Š”‰¿‚ğ•Ï“®‚³‚¹‚éB
                                 wt.waitPlayer();
                                 break;
                             }
@@ -288,32 +301,53 @@ class EchoThread extends Thread {
 
                     }
                 }
-				//ã“ã“ã§ã‚¿ãƒ¼ãƒ³æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆã—æ¬¡ã®ã‚¿ãƒ¼ãƒ³ã¸ã€‚
+                //‚±‚±‚Åƒ^[ƒ“”‚ğƒJƒEƒ“ƒg‚µŸ‚Ìƒ^[ƒ“‚ÖB
                 turn++;
             }
-			//æœ€çµ‚ã‚¿ãƒ¼ãƒ³çµ‚äº†å¾Œã®å‡¦ç†
-			//æœ€çµ‚æ ªä¾¡å¤‰å‹•
-            Price.changePrice();
-			//æœ€çµ‚æ ªä¾¡ã‚’è¡¨ç¤º
-            if(Price.fluc1>=0)out.println("æ ª1:"+Price.price1+"yen.(+"+Price.fluc1+")");
-            else out.println("æ ª1:"+Price.price1+"yen.("+Price.fluc1+")");
-            if(Price.fluc2>=0)out.println("æ ª2:"+Price.price2+"yen.(+"+Price.fluc2+")");
-            else out.println("æ ª2:"+Price.price2+"yen.("+Price.fluc2+")");
-            if(Price.fluc3>=0)out.println("æ ª3:"+Price.price3+"yen.(+"+Price.fluc3+")");
-            else out.println("æ ª3:"+Price.price3+"yen.("+Price.fluc3+")");
-            //æœ€çµ‚æ ªä¾¡ã‚’å¤‰æ•°ã¨ã—ã¦é€ä¿¡
-			out.println(Price.price1);
+            //ÅIƒ^[ƒ“I—¹Œã‚Ìˆ—
+            //ÅIŠ”‰¿‚ğ•\¦
+            if(Price.fluc1>=0)out.println("Š”1:"+Price.price1+"yen.(+"+Price.fluc1+")");
+            else out.println("Š”1:"+Price.price1+"yen.("+Price.fluc1+")");
+            if(Price.fluc2>=0)out.println("Š”2:"+Price.price2+"yen.(+"+Price.fluc2+")");
+            else out.println("Š”2:"+Price.price2+"yen.("+Price.fluc2+")");
+            if(Price.fluc3>=0)out.println("Š”3:"+Price.price3+"yen.(+"+Price.fluc3+")");
+            else out.println("Š”3:"+Price.price3+"yen.("+Price.fluc3+")");
+            //ÅIŠ”‰¿‚ğ•Ï”‚Æ‚µ‚Ä‘—M
+            out.println(Price.price1);
             out.println(Price.price2);
             out.println(Price.price3);
             out.flush();
-			//ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã—ãŸã“ã¨ã‚’ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰å—ã‘å–ã‚Šè¡¨ç¤ºã™ã‚‹ã€‚
+
+            int fscore[] = new int[100];
+            for(Global.i=0;Global.i<Player.players;Global.i++){
+                fscore[Global.i] = (Player.getmoney(Global.i)
+                    +Price.price1*Player.getstocks(Global.i,0)
+                    +Price.price2*Player.getstocks(Global.i,1)
+                    +Price.price3*Player.getstocks(Global.i,2));
+                System.out.println("Player"+Global.i+":"+fscore[Global.i]+"yen.");
+            }
+            int topNum=0,topScore=fscore[0];
+            for(Global.i=1;Global.i<Player.players;Global.i++){
+                if(fscore[Global.i]>fscore[topNum]){
+                    topScore = fscore[Global.i];
+                    topNum = Global.i;
+                }
+            }
+            for(Global.i=0;Global.i<Player.players;Global.i++){
+                out.println(Player.name[Global.i]+": "+fscore[Global.i]+" yen.");
+            }
+
+            out.println(topNum);
+            out.println("—DŸ‚Í"+Player.name[topNum]+"‚³‚ñ‚Å‚·BŠ‹à: "+topScore+" yen.");
+
+            //ƒƒOƒAƒEƒg‚µ‚½‚±‚Æ‚ğƒNƒ‰ƒCƒAƒ“ƒg‚©‚çó‚¯æ‚è•\¦‚·‚éB
             line = in.readLine();
             System.out.println(line);
         }
         catch(IOException e){
             e.printStackTrace();
         }
-		//ã‚µãƒ¼ãƒãƒ¼çµ‚äº†æ™‚ã®å‡¦ç†(ãƒãƒ«ãƒã‚¹ãƒ¬ãƒƒãƒ‰ã®å ´åˆã¯çµ‚ã‚ã£ã¦ã¯ã„ã‘ãªã„ã®ã§è¦ä¿®æ­£)
+
         finally{
             try{
                 if(socket != null)  socket.close();
@@ -326,45 +360,3 @@ class EchoThread extends Thread {
         }
     }
 }
-
-//test upload
-
-
-
-/*
-public class Price{
-
-    public static int price1=80;
-    public static int price2=100;
-    public static int price3=120;
-    public static int fluc1;
-    public static int fluc2;
-    public static int fluc3;
-
-    public static void changePrice(){
-        //ç¾åœ¨æ™‚åˆ»ã‚’ã‚·ãƒ¼ãƒ‰ã¨ã—ã¦ä¹±æ•°ã‚’ä½œæˆã€‚
-        long seed = System.currentTimeMillis();
-        Random r = new Random(seed);
-        int ran1 = r.nextInt(21)-10;
-        int ran2 = r.nextInt(41)-20;
-        int ran3 = r.nextInt(61)-30;
-        double rate1 = (double)1.0+(double)ran1/100; //æ ª1ã¯Â±10%
-        double rate2 = (double)1.0+(double)ran2/100; //æ ª2ã¯Â±20%
-        double rate3 = (double)1.0+(double)ran3/100; //æ ª3ã¯Â±30%å¤‰å‹•ã™ã‚‹ã€‚
-        fluc1=price1;//å‰å›ã‹ã‚‰ã®å¤‰å‹•æ•°å€¤ã‚’è¨˜éŒ²
-        fluc2=price2;
-        fluc3=price3;
-        price1*=rate1;
-        price2*=rate2; 
-        price3*=rate3;
-        //æ ªä¾¡æœ€ä½é¡ã‚’æŒ‡å®š(ã‚ã¾ã‚Šã«ã‚‚æ ªä¾¡ãŒä½ããªã‚‹ã“ã¨ã‚’é˜²æ­¢)
-        if(price1<20) price1=25;
-        if(price2<30) price2=30;
-        if(price3<40) price3=35;
-        fluc1=price1-fluc1;
-        fluc2=price2-fluc2;
-        fluc3=price3-fluc3;
-    }
-}
-*/
-
