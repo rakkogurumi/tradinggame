@@ -14,17 +14,17 @@ import java.util.Random;
 
 
 public class Client {
-    //ãƒãƒ¼ãƒˆã¯10007
+    //ƒ|[ƒg‚Í10007
     public static final int ECHO_PORT = 10007;
 
     public static void main(String args[]) {
         Socket socket = null;
-        //å¼•æ•°ãªã—ã§localhostã«è‡ªå‹•æ¥ç¶šã™ã‚‹ã€‚
-        //ã‚µãƒ¼ãƒãƒ¼åã‚’æŒ‡å®šã™ã‚‹å ´åˆã¯ã€"java Client [ã‚µãƒ¼ãƒãƒ¼å]"
+        //ˆø”‚È‚µ‚Ålocalhost‚É©“®Ú‘±‚·‚éB
+        //ƒT[ƒo[–¼‚ğw’è‚·‚éê‡‚ÍA"java Client [ƒT[ƒo[–¼]"
         try {
             if(args.length==0) socket = new Socket("localhost", ECHO_PORT);
             else socket = new Socket(args[0], ECHO_PORT);
-            System.out.println("æ¥ç¶šã—ã¾ã—ãŸ"+ socket.getRemoteSocketAddress());
+            System.out.println("Ú‘±‚µ‚Ü‚µ‚½"+ socket.getRemoteSocketAddress());
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader keyIn = new BufferedReader(new InputStreamReader(System.in));
@@ -33,10 +33,31 @@ public class Client {
             String line;
             String name;
             int highscore=0;
-            int turn=1; //ã‚¿ãƒ¼ãƒ³æ•°
+            int turn=1; //ƒ^[ƒ“”
+
+            //©•ª‚Ì–¼‘O‚ğ“ü—Í‚µ‚ÄƒT[ƒo[‚É‘—M
+            System.out.println("ƒvƒŒƒCƒ„[–¼‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
+            input = keyIn.readLine();
+            name = input;
+            //ƒT[ƒo[‚©‚ç‚Ì•ÔM‚ğó‚¯æ‚éB
+            out.println(name);
+            line = in.readLine();
+            System.out.println(line);
+
+            //ƒvƒŒƒCƒ„[”Ô†‚ÆƒvƒŒƒCƒ„[l”‚ğó‚¯æ‚éB
+            int p_num = Integer.parseInt(in.readLine());
+            int players = Integer.parseInt(in.readLine());
+            int command;
+            //p1,p2,p3‚ÍŠ”‰¿B
+            int p1;
+            int p2;
+            int p3;
+            int temp;
+            int mymoney=10000; //Š‹à
+            int mys1=0,mys2=0,mys3=0; //ŠŠ”
 
             try{
-                System.out.println("ç¾åœ¨ã®ã‚ãªãŸã®ãƒã‚¤ã‚¹ã‚³ã‚¢");
+                System.out.println("Œ»İ‚Ì‚ ‚È‚½‚ÌƒnƒCƒXƒRƒA");
                 File file1 = new File("hs_name.txt");
                 FileReader filereader1 = new FileReader(file1);
                 int ch;
@@ -50,10 +71,10 @@ public class Client {
 
                 while((ch = filereader2.read()) != -1){
                     System.out.print((char)ch);
+                    highscore = highscore*10+(((int)ch)-48);
                 }
                 System.out.println("yen");
                 filereader2.close();
-                highscore = highscore*10+(ch-48);
                 System.out.println("------------------");
                 System.out.println();
             }catch(FileNotFoundException e){
@@ -61,43 +82,22 @@ public class Client {
             }catch(IOException e){
                 System.out.println(e);
             }
-            
-            //è‡ªåˆ†ã®åå‰ã‚’å…¥åŠ›ã—ã¦ã‚µãƒ¼ãƒãƒ¼ã«é€ä¿¡
-            System.out.println("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
-            input = keyIn.readLine();
-            name = input;
-            //ã‚µãƒ¼ãƒãƒ¼ã‹ã‚‰ã®è¿”ä¿¡ã‚’å—ã‘å–ã‚‹ã€‚
-            out.println(name);
-            line = in.readLine();
-            System.out.println(line);
-            //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼äººæ•°ã‚’å—ã‘å–ã‚‹ã€‚
-            int p_num = Integer.parseInt(in.readLine());
-            int players = Integer.parseInt(in.readLine());
-            int command;
-            //p1,p2,p3ã¯æ ªä¾¡ã€‚
-            int p1;
-            int p2;
-            int p3;
-            int temp;
-            int mymoney=10000; //æ‰€æŒé‡‘
-            int mys1=0,mys2=0,mys3=0; //æ‰€æŒæ ª
 
-
-            //ã¨ã‚Šã‚ãˆãš10ã‚¿ãƒ¼ãƒ³
+            //‚Æ‚è‚ ‚¦‚¸10ƒ^[ƒ“
             while (turn<=10){
                 System.out.println("---------------");
                 System.out.println();
                 line = in.readLine();
                 System.out.println(line);
                 System.out.println();
-                System.out.println("ãƒ•ã‚§ã‚¤ã‚º1:æ ªè³¼å…¥ãƒ•ã‚§ã‚¤ã‚º");
+                System.out.println("ƒtƒFƒCƒY1:Š”w“üƒtƒFƒCƒY");
                 for(int i=0;i<3;i++){
                     line = in.readLine();
                     System.out.println(line);
                 }
 
                 System.out.println("---------------");
-                System.out.println("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼çŠ¶æ³");
+                System.out.println("ƒvƒŒƒCƒ„[ó‹µ");
                 for(int i=0;i<players;i++){
                     line = in.readLine();
                     System.out.println(line);
@@ -105,9 +105,9 @@ public class Client {
 
                 out.println(p_num);
                 out.flush();
-                System.out.printf("æ ª1ã®æ‰€æŒæ•°:%4d ",Integer.parseInt(in.readLine()));
-                System.out.printf("æ ª2ã®æ‰€æŒæ•°:%4d ",Integer.parseInt(in.readLine()));
-                System.out.println("æ ª3ã®æ‰€æŒæ•°:"+Integer.parseInt(in.readLine()));   
+                System.out.printf("Š”1‚ÌŠ”:%4d ",Integer.parseInt(in.readLine()));
+                System.out.printf("Š”2‚ÌŠ”:%4d ",Integer.parseInt(in.readLine()));
+                System.out.println("Š”3‚ÌŠ”:"+Integer.parseInt(in.readLine()));   
 
                 System.out.println("---------------");
                 p1 = Integer.parseInt(in.readLine());
@@ -116,8 +116,8 @@ public class Client {
 
                 //PHASE1 Buying stocks
                 while(true){
-                    System.out.println("ã‚³ãƒãƒ³ãƒ‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„");
-                    System.out.println("1:æ ª1ã‚’è²·ã† 2:æ ª2ã‚’è²·ã† 3:æ ª3ã‚’è²·ã† 4:è²·ã‚ãªã„");
+                    System.out.println("ƒRƒ}ƒ“ƒh‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
+                    System.out.println("1:Š”1‚ğ”ƒ‚¤ 2:Š”2‚ğ”ƒ‚¤ 3:Š”3‚ğ”ƒ‚¤ 4:”ƒ‚í‚È‚¢");
                     input = keyIn.readLine();
                     out.println(input);
                     out.flush();
@@ -129,8 +129,8 @@ public class Client {
                     }
 
                     if(command==1){
-                        System.out.println("è³¼å…¥ã™ã‚‹æ ª1ã®æšæ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚ è³¼å…¥é™ç•Œæ•°:"+(int)mymoney/p1);
-                        System.out.println("ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã™ã‚‹å ´åˆã¯0ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
+                        System.out.println("w“ü‚·‚éŠ”1‚Ì–‡”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B w“üŒÀŠE”:"+(int)mymoney/p1);
+                        System.out.println("ƒLƒƒƒ“ƒZƒ‹‚·‚éê‡‚Í0‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
                         try{
                             temp = Integer.parseInt(keyIn.readLine());
                         }
@@ -139,7 +139,7 @@ public class Client {
                         }
                         if(temp<=mymoney/p1 && temp>0){
                             out.println("OK");
-                            System.out.println("æ ª1ã‚’"+temp+"æšè³¼å…¥ã—ã¾ã—ãŸã€‚");
+                            System.out.println("Š”1‚ğ"+temp+"–‡w“ü‚µ‚Ü‚µ‚½B");
                             System.out.println();
                             mymoney-=temp*p1;
                             mys1+=temp;
@@ -151,12 +151,12 @@ public class Client {
                         }
                         else{
                             out.println("NG");
-                            System.out.println("å–ã‚Šå¼•ãã‚’ä¸­æ–­ã—ã¾ã—ãŸã€‚");
+                            System.out.println("æ‚èˆø‚«‚ğ’†’f‚µ‚Ü‚µ‚½B");
                         }
                     }  
                     else if(command==2){
-                        System.out.println("è³¼å…¥ã™ã‚‹æ ª2ã®æšæ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚ è³¼å…¥é™ç•Œæ•°:"+(int)mymoney/p2);
-                        System.out.println("ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã™ã‚‹å ´åˆã¯0ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
+                        System.out.println("w“ü‚·‚éŠ”2‚Ì–‡”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B w“üŒÀŠE”:"+(int)mymoney/p2);
+                        System.out.println("ƒLƒƒƒ“ƒZƒ‹‚·‚éê‡‚Í0‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
                         try{
                             temp = Integer.parseInt(keyIn.readLine());
                         }
@@ -165,7 +165,7 @@ public class Client {
                         }
                         if(temp<=mymoney/p2 && temp>0){
                             out.println("OK");
-                            System.out.println("æ ª2ã‚’"+temp+"æšè³¼å…¥ã—ã¾ã—ãŸã€‚");
+                            System.out.println("Š”2‚ğ"+temp+"–‡w“ü‚µ‚Ü‚µ‚½B");
                             System.out.println();
                             mymoney-=temp*p2;
                             mys2+=temp;
@@ -177,12 +177,12 @@ public class Client {
                         }
                         else{
                             out.println("NG");
-                            System.out.println("å–ã‚Šå¼•ãã‚’ä¸­æ–­ã—ã¾ã—ãŸã€‚");
+                            System.out.println("æ‚èˆø‚«‚ğ’†’f‚µ‚Ü‚µ‚½B");
                         }
                     }
                     else if(command==3){
-                        System.out.println("è³¼å…¥ã™ã‚‹æ ª3ã®æšæ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚ è³¼å…¥é™ç•Œæ•°:"+(int)mymoney/p3);
-                        System.out.println("ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã™ã‚‹å ´åˆã¯0ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
+                        System.out.println("w“ü‚·‚éŠ”3‚Ì–‡”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B w“üŒÀŠE”:"+(int)mymoney/p3);
+                        System.out.println("ƒLƒƒƒ“ƒZƒ‹‚·‚éê‡‚Í0‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
                         try{
                             temp = Integer.parseInt(keyIn.readLine());
                         }
@@ -191,7 +191,7 @@ public class Client {
                         }
                         if(temp<=mymoney/p3 && temp>0){
                             out.println("OK");
-                            System.out.println("æ ª3ã‚’"+temp+"æšè³¼å…¥ã—ã¾ã—ãŸã€‚");
+                            System.out.println("Š”3‚ğ"+temp+"–‡w“ü‚µ‚Ü‚µ‚½B");
                             System.out.println();
                             mymoney-=temp*p3;
                             mys3+=temp;
@@ -203,20 +203,20 @@ public class Client {
                         }
                         else{
                             out.println("NG");
-                            System.out.println("å–ã‚Šå¼•ãã‚’ä¸­æ–­ã—ã¾ã—ãŸã€‚");
+                            System.out.println("æ‚èˆø‚«‚ğ’†’f‚µ‚Ü‚µ‚½B");
                         }
                     }
                     else if(command==4){
-                        System.out.println("æ ªå£²å´ãƒ•ã‚§ã‚¤ã‚ºã«ç§»è¡Œã—ã¾ã™ã€‚");
+                        System.out.println("Š””„‹pƒtƒFƒCƒY‚ÉˆÚs‚µ‚Ü‚·B");
                         break;
                     }
-                    else    System.out.println(input+"ã¯ç„¡åŠ¹ãªå…¥åŠ›ã§ã™ã€‚");
+                    else    System.out.println(input+"‚Í–³Œø‚È“ü—Í‚Å‚·B");
                 }
 
                 //PHASE2 Selling stocks
-                System.out.println("---------------Â¥n");
+                System.out.println("---------------\n");
                 System.out.println();
-                System.out.println("ãƒ•ã‚§ã‚¤ã‚º2ï¼šæ ªå£²å´ãƒ•ã‚§ã‚¤ã‚º");
+                System.out.println("ƒtƒFƒCƒY2FŠ””„‹pƒtƒFƒCƒY");
 
                 for(int i=0;i<3;i++){
                     line = in.readLine();
@@ -224,22 +224,22 @@ public class Client {
                 }
 
                 System.out.println("---------------");
-                System.out.println("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çŠ¶æ³");
+                System.out.println("ƒvƒŒƒCƒ„[‚Ìó‹µ");
                 for(int i=0;i<players;i++){
                     line = in.readLine();
                     System.out.println(line);
                 }
 
                 out.println(p_num);
-                System.out.printf("æ ª1ã®æ‰€æŒæ•°:%4d ",Integer.parseInt(in.readLine()));
-                System.out.printf("æ ª2ã®æ‰€æŒæ•°:%4d ",Integer.parseInt(in.readLine()));
-                System.out.println("æ ª3ã®æ‰€æŒæ•°:"+Integer.parseInt(in.readLine()));   
+                System.out.printf("Š”1‚ÌŠ”:%4d ",Integer.parseInt(in.readLine()));
+                System.out.printf("Š”2‚ÌŠ”:%4d ",Integer.parseInt(in.readLine()));
+                System.out.println("Š”3‚ÌŠ”:"+Integer.parseInt(in.readLine()));   
 
                 System.out.println("---------------");
 
                 while(true){
-                    System.out.println("ã‚³ãƒãƒ³ãƒ‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„");
-                    System.out.println("1:æ ª1ã‚’å£²ã‚‹ 2:æ ª2ã‚’å£²ã‚‹ 3:æ ª3ã‚’å£²ã‚‹ 4:å£²ã‚‰ãªã„");
+                    System.out.println("ƒRƒ}ƒ“ƒh‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
+                    System.out.println("1:Š”1‚ğ”„‚é 2:Š”2‚ğ”„‚é 3:Š”3‚ğ”„‚é 4:”„‚ç‚È‚¢");
                     input = keyIn.readLine();
                     out.println(input);
                     try{
@@ -249,8 +249,8 @@ public class Client {
                         command =0;
                     }
                     if(command==1){
-                        System.out.println("å£²å´ã™ã‚‹æ ª1ã®æšæ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚æœ€å¤§å£²å´æ•°:"+mys1);
-                        System.out.println("ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã™ã‚‹å ´åˆã¯0ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
+                        System.out.println("”„‹p‚·‚éŠ”1‚Ì–‡”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢BÅ‘å”„‹p”:"+mys1);
+                        System.out.println("ƒLƒƒƒ“ƒZƒ‹‚·‚éê‡‚Í0‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
                         try{
                             temp = Integer.parseInt(keyIn.readLine());
                         }
@@ -259,7 +259,7 @@ public class Client {
                         }
                         if(temp<=mys1 && temp>0){
                             out.println("OK");
-                            System.out.println("æ ª1ã‚’"+temp+"æšå£²å´ã—ã¾ã—ãŸã€‚");
+                            System.out.println("Š”1‚ğ"+temp+"–‡”„‹p‚µ‚Ü‚µ‚½B");
                             System.out.println();
                             mymoney+=temp*p1;
                             mys1+=temp;
@@ -271,12 +271,12 @@ public class Client {
                         }
                         else{
                             out.println("NG");
-                            System.out.println("å–ã‚Šå¼•ãã‚’ä¸­æ­¢ã—ã¾ã—ãŸã€‚");
+                            System.out.println("æ‚èˆø‚«‚ğ’†~‚µ‚Ü‚µ‚½B");
                         }
                     }  
                     else if(command==2){
-                        System.out.println("å£²å´ã™ã‚‹æ ª2ã®æšæ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚æœ€å¤§å£²å´æ•°:"+mys2);
-                        System.out.println("ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã™ã‚‹å ´åˆã¯0ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
+                        System.out.println("”„‹p‚·‚éŠ”2‚Ì–‡”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢BÅ‘å”„‹p”:"+mys2);
+                        System.out.println("ƒLƒƒƒ“ƒZƒ‹‚·‚éê‡‚Í0‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
                         try{
                             temp = Integer.parseInt(keyIn.readLine());
                         }
@@ -285,7 +285,7 @@ public class Client {
                         }
                         if(temp<=mys2 && temp>0){
                             out.println("OK");
-                            System.out.println("æ ª2ã‚’"+temp+"æšå£²å´ã—ã¾ã—ãŸ.");
+                            System.out.println("Š”2‚ğ"+temp+"–‡”„‹p‚µ‚Ü‚µ‚½.");
                             System.out.println();
                             mymoney+=temp*p2;
                             mys2-=temp;
@@ -297,12 +297,12 @@ public class Client {
                         }
                         else{
                             out.println("NG");
-                            System.out.println("å–ã‚Šå¼•ãã‚’ä¸­æ­¢ã—ã¾ã—ãŸã€‚");
+                            System.out.println("æ‚èˆø‚«‚ğ’†~‚µ‚Ü‚µ‚½B");
                         }
                     }
                     else if(command==3){
-                        System.out.println("å£²å´ã™ã‚‹æ ª3ã®æšæ•°ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚æœ€å¤§å£²å´æ•°:"+mys3);
-                        System.out.println("ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã™ã‚‹å ´åˆã¯0ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
+                        System.out.println("”„‹p‚·‚éŠ”3‚Ì–‡”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢BÅ‘å”„‹p”:"+mys3);
+                        System.out.println("ƒLƒƒƒ“ƒZƒ‹‚·‚éê‡‚Í0‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
                         try{
                             temp = Integer.parseInt(keyIn.readLine());
                         }
@@ -311,7 +311,7 @@ public class Client {
                         }
                         if(temp<=mys3 && temp>0){
                             out.println("OK");
-                            System.out.println("æ ª3ã‚’"+temp+"æšå£²å´ã—ã¾ã—ãŸã€‚");
+                            System.out.println("Š”3‚ğ"+temp+"–‡”„‹p‚µ‚Ü‚µ‚½B");
                             System.out.println();
                             mymoney+=temp*p3;
                             mys3-=temp;
@@ -323,32 +323,57 @@ public class Client {
                         }
                         else{
                             out.println("NG");
-                            System.out.println("å–ã‚Šå¼•ãã‚’ä¸­æ­¢ã—ã¾ã—ãŸã€‚");
+                            System.out.println("æ‚èˆø‚«‚ğ’†~‚µ‚Ü‚µ‚½B");
                         }
                     }
                     else if(command==4){
-                        System.out.println("æ¬¡ã®ã‚¿ãƒ¼ãƒ³ã«ç§»è¡Œã—ã¾ã™ã€‚");
+                        System.out.println("Ÿ‚Ìƒ^[ƒ“‚ÉˆÚs‚µ‚Ü‚·B");
                         break;
                     }
-                    else    System.out.println(input+"ã¯ç„¡åŠ¹ãªå…¥åŠ›ã§ã™ã€‚");
+                    else    System.out.println(input+"‚Í–³Œø‚È“ü—Í‚Å‚·B");
                 }
 
                 turn++;
             }
             //Game end.
-            System.out.println("æœ€çµ‚æ ªä¾¡å¤‰å‹•");
+            System.out.println("ÅIŠ”‰¿•Ï“®");
             System.out.println("---------------");
             for(int i=0;i<3;i++){
                 line = in.readLine();
                 System.out.println(line);
             }
+
+
             p1 = Integer.parseInt(in.readLine());
             p2 = Integer.parseInt(in.readLine());
             p3 = Integer.parseInt(in.readLine());
             int fortune = p1*mys1+p2*mys2+p3*mys3+mymoney;
-            System.out.println("ã‚ãªãŸã®æœ€çµ‚ç·è³‡ç”£ã¯ã€"+fortune+"yen ã§ã™ã€‚");
+            System.out.println("‚ ‚È‚½‚ÌÅI‘‘Y‚ÍA"+fortune+"yen ‚Å‚·B");
+
+            System.out.println();
+            System.out.println("--------------------");
+            System.out.println("ÅIƒvƒŒƒCƒ„[ó‹µ");
+            for(int i=0;i<players;i++){
+                input = in.readLine();
+                System.out.println(input);
+            }
+            System.out.println("--------------------");
+            System.out.println();
+
+            int winner;
+            winner = Integer.parseInt(in.readLine());
+            if(p_num==winner){
+                System.out.println("‚ ‚È‚½‚ÌŸ‚¿‚Å‚·I");
+                input = in.readLine();
+            }
+            else{
+                input = in.readLine();
+                System.out.println("‚ ‚È‚½‚Ì•‰‚¯‚Å‚·...");
+                System.out.println(input);
+            }
+
             if(fortune>highscore){
-                System.out.println("ãƒã‚¤ã‚¹ã‚³ã‚¢ãŒæ›´æ–°ã•ã‚Œã¾ã—ãŸã€‚");
+                System.out.println("ƒnƒCƒXƒRƒA‚ªXV‚³‚ê‚Ü‚µ‚½B");
                 try{
                     File file1 = new File("hs_name.txt");
                     FileWriter filewriter1 = new FileWriter(file1);
@@ -356,15 +381,15 @@ public class Client {
                     filewriter1.close();
                     File file2 = new File("highscore.txt");
                     PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file2)));
-                    pw.write(String.valueOf(highscore));
+                    pw.write(String.valueOf(fortune));
                     pw.close();
                 }
                 catch(IOException e){
                     System.out.println(e);
                 }
             }
-            System.out.println("çµ‚äº†");
-            out.println("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼"+(p_num+1)+":"+name+"ã¯ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã—ã¾ã—ãŸã€‚");
+            System.out.println("I—¹");
+            out.println("ƒvƒŒƒCƒ„["+(p_num+1)+":"+name+"‚ÍƒƒOƒAƒEƒg‚µ‚Ü‚µ‚½B");
         }
         catch(IOException e){
             e.printStackTrace();
@@ -374,7 +399,7 @@ public class Client {
                 if(socket != null)  socket.close();
             }
             catch (IOException e) {}
-            System.out.println("åˆ‡æ–­ã•ã‚Œã¾ã—ãŸ " + socket.getRemoteSocketAddress());
+            System.out.println("Ø’f‚³‚ê‚Ü‚µ‚½ " + socket.getRemoteSocketAddress());
         }
     }
 }
