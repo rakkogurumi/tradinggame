@@ -5,9 +5,9 @@ public class Player{
   public static int p_num;
   public static int wait_num=0;
 
-  static int stocks[][] = new int[100][3]; //ŠeƒvƒŒƒCƒ„[‚ÌŠŠ””ŠÇ——p”z—ñstocks
-  static String name[] = new String[100];  //ƒvƒŒƒCƒ„[–¼ŠÇ——p”z—ñname
-  static int money[] = new int[100]; //ŠeƒvƒŒƒCƒ„[‚ÌŠ‹à
+  static int stocks[][] = new int[100][3]; //å„ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒæ ªæ•°ç®¡ç†ç”¨é…åˆ—stocks
+  static String name[] = new String[100];  //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åç®¡ç†ç”¨é…åˆ—name
+  static int money[] = new int[100]; //å„ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ‰€æŒé‡‘
 
   public static int getstocks(int p,int s){
     return stocks[p][s];
