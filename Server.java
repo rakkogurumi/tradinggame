@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.Random;
 
-//グローバル変数の部分。(マルチスレッドではインスタンスの方がいいかも)
 class Global{
     public static int i=0;
 }
@@ -109,7 +108,7 @@ class EchoThread extends Thread {
             //stocksの初期化
             for(int i=0;i<Player.players;i++) for(int j=0;j<3;j++) Player.putstocks(i,j,0);
 
-            //プレイヤーが最初に指定した人数分揃うまでloginを待つ部分(場合によっては不必要)
+            //プレイヤーが最初に指定した人数分揃うまでloginを待つ部分
             int i=0;
             //while(true){
                // if(Global.i>=Player.players) break;
@@ -135,8 +134,7 @@ class EchoThread extends Thread {
 
 
 
-            //とりあえず10ターン行うことにする。(初期設定で決めてもいいかもしれない)
-            while (turn<=10){
+            while (turn<=3){
                 //Price.changePrice(); //まず株価を変動させる。
                 //ターン開始宣言と、現在の株価、持ち株数、持ち金をクライアントに送り、クライアント側で表示させる。
                 System.out.println(Thread.currentThread()+"Turn"+turn+" start.");
@@ -341,24 +339,26 @@ class EchoThread extends Thread {
             out.println(Price.price2);
             out.println(Price.price3);
             out.flush();
-
+			
+			
             int fscore[] = new int[100];
-            for(Global.i=0;Global.i<Player.players;Global.i++){
-                fscore[Global.i] = (Player.getmoney(Global.i)
-                    +Price.price1*Player.getstocks(Global.i,0)
-                    +Price.price2*Player.getstocks(Global.i,1)
-                    +Price.price3*Player.getstocks(Global.i,2));
-                System.out.println("Player"+Global.i+":"+fscore[Global.i]+"yen.");
+            for(int j=0; j<Player.players; j++){
+                fscore[j] = (Player.getmoney(j)
+                    +Price.price1*Player.getstocks(j,0)
+                    +Price.price2*Player.getstocks(j,1)
+                    +Price.price3*Player.getstocks(j,2));
+                System.out.println("Player"+(j+1)+":"+fscore[j]+"yen.");
+				out.println(fscore[j]);
             }
             int topNum=0,topScore=fscore[0];
-            for(Global.i=1;Global.i<Player.players;Global.i++){
-                if(fscore[Global.i]>fscore[topNum]){
-                    topScore = fscore[Global.i];
-                    topNum = Global.i;
+            for(int j=1;j<Player.players;j++){
+                if(fscore[j]>fscore[topNum]){
+                    topScore = fscore[j];
+                    topNum = j;
                 }
             }
-            for(Global.i=0;Global.i<Player.players;Global.i++){
-                out.println(Player.name[Global.i]+": "+fscore[Global.i]+" yen.");
+            for(int j=0;j<Player.players;j++){
+                out.println(Player.name[j]+": "+fscore[j]+" yen.");
             }
 
             out.println(topNum);
@@ -384,3 +384,4 @@ class EchoThread extends Thread {
         }
     }
 }
+

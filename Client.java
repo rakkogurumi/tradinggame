@@ -57,7 +57,7 @@ public class Client {
             int mys1=0,mys2=0,mys3=0; //所持株
 
             try{
-                System.out.println("現在のあなたのハイスコア");
+                System.out.println("歴代ハイスコア");
                 File file1 = new File("hs_name.txt");
                 FileReader filereader1 = new FileReader(file1);
                 int ch;
@@ -84,7 +84,7 @@ public class Client {
             }
 
             //とりあえず10ターン
-            while (turn<=10){
+            while (turn<=3){
                 System.out.println("---------------");
                 System.out.println();
                 line = in.readLine();
@@ -130,6 +130,7 @@ public class Client {
 
                 //PHASE1 Buying stocks
                 while(true){
+					System.out.println("現在の所持金："+mymoney+" yen.");
                     System.out.println("コマンドを入力してください");
                     System.out.println("1:株1を買う 2:株2を買う 3:株3を買う 4:買わない");
                     input = keyIn.readLine();
@@ -266,6 +267,7 @@ public class Client {
                 }
 
                 while(true){
+					System.out.println("現在の所持金："+mymoney+" yen.");
                     System.out.println("コマンドを入力してください");
                     System.out.println("1:株1を売る 2:株2を売る 3:株3を売る 4:売らない");
                     input = keyIn.readLine();
@@ -375,8 +377,13 @@ public class Client {
             p1 = Integer.parseInt(in.readLine());
             p2 = Integer.parseInt(in.readLine());
             p3 = Integer.parseInt(in.readLine());
-            int fortune = p1*mys1+p2*mys2+p3*mys3+mymoney;
-            System.out.println("あなたの最終総資産は、"+fortune+"yen です。");
+
+			int fortune[] = new int[100];
+
+			for(int i=0;i<players;i++){
+				fortune[i] = Integer.parseInt(in.readLine());
+				System.out.println(fortune[i]);
+			}
 
             System.out.println();
             System.out.println("--------------------");
@@ -400,7 +407,7 @@ public class Client {
                 System.out.println(input);
             }
 
-            if(fortune>highscore){
+            if(fortune[winner]>highscore){
                 System.out.println("ハイスコアが更新されました。");
                 try{
                     File file1 = new File("hs_name.txt");
@@ -409,7 +416,7 @@ public class Client {
                     filewriter1.close();
                     File file2 = new File("highscore.txt");
                     PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file2)));
-                    pw.write(String.valueOf(fortune));
+                    pw.write(String.valueOf(fortune[winner]));
                     pw.close();
                 }
                 catch(IOException e){
@@ -431,3 +438,4 @@ public class Client {
         }
     }
 }
+
